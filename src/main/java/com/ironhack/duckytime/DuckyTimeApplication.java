@@ -19,10 +19,15 @@ public class DuckyTimeApplication {
             AdminRepository adminRepo
     ){
         return  args -> {
-            Admin alex = adminRepo.save(
-                    new Admin("alex", "alex123")
-            );
-            adminRepo.save(alex);
+            try {
+                Admin admin = adminRepo.findByUsername("alex");
+                System.out.println("Admin is " + admin.toString());
+            } catch (Exception e) {
+                System.out.println("Creating first admin...");
+                adminRepo.save(
+                        new Admin("alex", "alex123")
+                );
+            }
         };
     }
 }
