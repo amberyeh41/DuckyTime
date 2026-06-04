@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -39,5 +40,22 @@ public class UserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(admin.getRole().label));
             return new org.springframework.security.core.userdetails.User(admin.getUsername(), admin.getPassword(), authorities);
         }
+    }
+
+    public Admin saveUser(Admin user) {
+        log.info("Saving new user {} to the database", user.getUsername());
+        // Encode the user's password for security before saving
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return adminRepository.save(user);
+    }
+
+    public Admin getUser(String username) {
+        log.info("Fetching user {}", username);
+        return adminRepository.findByUsername(username);
+    }
+
+    public List<Admin> getUsers() {
+        log.info("Fetching all users");
+        return adminRepository.findAll();
     }
 }
