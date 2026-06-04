@@ -1,5 +1,4 @@
 package com.ironhack.duckytime.services;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import com.ironhack.duckytime.models.Admin;
@@ -18,12 +17,12 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class UserService implements UserDetailsService {
+public class AdminService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
     }
