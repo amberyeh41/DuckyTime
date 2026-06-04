@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -61,13 +62,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // encoded JWT with secret key
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
+        var authorities = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
         // Adding user details and roles to the token
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 360 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("roles", authorities)
                 .sign(algorithm);
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         // Creating a map with the generated token
         Map<String, String> tokens = new HashMap<>();

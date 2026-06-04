@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.ironhack.duckytime.models.Admin;
 import com.ironhack.duckytime.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,8 +36,8 @@ public class AdminService implements UserDetailsService {
             throw new UsernameNotFoundException("Admin not found in the database");
         } else {
             log.info("User found in the database: {}", username);
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(admin.getRole().label));
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(admin.getRole());
             return new org.springframework.security.core.userdetails.User(admin.getUsername(), admin.getPassword(), authorities);
         }
     }

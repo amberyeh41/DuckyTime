@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Setter
 @Getter
 @Entity
@@ -13,6 +15,10 @@ public class SharedSpace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 
     protected SharedSpace() {
     }

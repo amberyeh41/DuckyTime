@@ -1,13 +1,14 @@
 package com.ironhack.duckytime.models;
 
-public enum Role {
-    ADMIN("ROLE_ADMIN"),
-    SUPERADMIN("ROLE_SUPERADMIN"),
-    HOUSEHOLD("ROLE_HOUSEHOLD");
+import org.springframework.security.core.GrantedAuthority;
 
-    public final String label;
+public enum Role implements GrantedAuthority {
+    ADMIN,
+    SUPERADMIN,
+    HOUSEHOLD;
 
-    private Role(String label) {
-        this.label = label;
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + name();
     }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Setter
 @Getter
 @Entity
@@ -15,6 +17,9 @@ public class Admin {
     private String username;
     private String password;
     private Role role = Role.ADMIN;
+
+    @OneToMany(mappedBy = "admin")
+    private Set<SharedSpace> shared_spaces;
 
     protected Admin() {
     }
