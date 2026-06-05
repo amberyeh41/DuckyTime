@@ -72,10 +72,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withClaim("roles", authorities)
                 .sign(algorithm);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
         // Creating a map with the generated token
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);

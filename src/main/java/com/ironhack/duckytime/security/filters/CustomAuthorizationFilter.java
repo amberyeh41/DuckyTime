@@ -56,21 +56,20 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
 
-                    System.out.println("FUUUUCK");
-                    System.out.println(username);
-                    System.out.println(roles[0]);
-
                     // Create a new authentication token with the user's details and authorities and set it in the Security Context
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-                    System.out.println("Security context was doneeee");
                     // Pass the request to the next filter in the chain
                     filterChain.doFilter(request, response);
 
                 } catch (Exception exception) {
                     log.error("Error logging in: {}", exception.getMessage());
+                    for(StackTraceElement elem : exception.getStackTrace()) {
+                        log.error("{}", elem.toString());
+                    }
+
 
                     // If an error occurs during the authorization process, set the error message in the response header and return a Forbidden error status
                     response.setHeader("error", exception.getMessage());

@@ -40,42 +40,26 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authManagerBuilder.getOrBuild());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http
-                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/login/**").permitAll()
-                        .requestMatchers("/api").authenticated()
-                        .anyRequest().denyAll()
-                );
+                        .requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
+                        .requestMatchers("/api/shared_spaces").hasAnyAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers("/error").permitAll()
+                        .anyRequest().authenticated()); // any other endpoints require authentication
 
+        // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
 
+        // Add the custom authorization filter before the standard authentication filter.
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // Build the security filter chain to be returned.
         return http.build();
     }
-
-//    @Bean
-//    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authManagerBuilder.getOrBuild());
-//        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(STATELESS))
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
-//                        .requestMatchers(POST, "/api/shared_spaces").permitAll()
-//                        .anyRequest().authenticated()); // any other endpoints require authentication
-//
-//        // add the custom authentication filter to the http security object
-//        http.addFilter(customAuthenticationFilter);
-//
-//        // Add the custom authorization filter before the standard authentication filter.
-//        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-//
-//        // Build the security filter chain to be returned.
-//        return http.build();
-//    }
 }
