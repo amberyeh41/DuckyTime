@@ -20,23 +20,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdminService implements UserDetailsService {
+public class AdminService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admin admin = adminRepository.findByUsername(username);
-        if (admin == null) {
-            log.error("Admin not found in the database");
-            throw new UsernameNotFoundException("Admin not found in the database");
-        } else {
-            log.info("User found in the database: {}", username);
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(admin.getRole());
-            return new org.springframework.security.core.userdetails.User(admin.getUsername(), admin.getPassword(), authorities);
-        }
-    }
 
     public Admin saveUser(Admin user) {
         log.info("Saving new user {} to the database", user.getUsername());

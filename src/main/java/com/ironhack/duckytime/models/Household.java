@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Entity
-@Table( name= "households" )
+@Table( name= "households",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UniqueBuildingFloorAndDoor", columnNames = { "admin_id", "building_name", "floor_number", "door_number" }),
+                @UniqueConstraint(name = "UniquePadlockPin", columnNames = {"admin_id", "padlock_pin"})})
 public class Household {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
