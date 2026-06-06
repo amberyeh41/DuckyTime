@@ -50,6 +50,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
                         .requestMatchers("/api/shared_spaces/**").hasAnyAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers("/api/households/**").hasAnyAuthority(Role.ADMIN.getAuthority())
+
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()); // any other endpoints require authentication
 
