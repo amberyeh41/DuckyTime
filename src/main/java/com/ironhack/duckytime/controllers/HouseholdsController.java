@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -40,13 +42,19 @@ public class HouseholdsController {
         householdService.saveHousehold(household);
     }
 
+    @GetMapping("/api/households")
+    public List<Household> listHouseholds(Authentication authentication) {
+        return householdService.getHouseholds(getAdmin(authentication).getId());
+    }
 
+    @GetMapping("/api/households/{id}")
+    public Household getHousehold(Authentication authentication, @PathVariable Long id) {
+        return householdService.getHousehold(getAdmin(authentication).getId(), id);
+    }
 
-
-
-
-
-
-
+    @DeleteMapping("/api/households/{id}")
+    public void deleteHousehold(Authentication authentication, @PathVariable Long id) {
+        householdService.deleteHousehold(getAdmin(authentication).getId(), id);
+    }
 
 }

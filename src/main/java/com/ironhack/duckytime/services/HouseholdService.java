@@ -35,7 +35,7 @@ public class HouseholdService {
     public void deleteHousehold(Long adminId, Long id) {
         Household space = householdRepository.findByAdminIdAndId(adminId, id);
         if (space == null) {
-            throw new ResourceNotFoundException("Shared space not found");
+            throw new ResourceNotFoundException("Household not found");
         }
         householdRepository.deleteById(id.intValue());
     }
