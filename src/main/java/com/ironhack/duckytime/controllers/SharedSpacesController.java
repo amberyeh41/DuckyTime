@@ -27,7 +27,7 @@ public class SharedSpacesController {
     @PostMapping("/api/shared_spaces")
     @ResponseStatus(HttpStatus.CREATED)
     public void createSharedSpace(Authentication authentication, @RequestBody SharedSpaceRequest sharedSpaceRequest) {
-        SharedSpace space = new SharedSpace(sharedSpaceRequest.getName());
+        SharedSpace space = new SharedSpace(sharedSpaceRequest.getName(),sharedSpaceRequest.getCapacity());
         space.setAdmin(getAdmin(authentication));
         sharedSpaceService.saveSharedSpace(space);
     }

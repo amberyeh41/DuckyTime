@@ -16,6 +16,7 @@ public class SharedSpace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Integer capacity;
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
@@ -25,7 +26,8 @@ public class SharedSpace {
     protected SharedSpace() {
     }
 
-    public SharedSpace(String name) {
+    public SharedSpace(String name, Integer capacity) {
         this.name = name;
+        this.capacity = capacity;
     }
 }

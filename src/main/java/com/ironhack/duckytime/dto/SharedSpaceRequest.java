@@ -11,4 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SharedSpaceRequest {
     private String name;
+    private Integer capacity;
 }
