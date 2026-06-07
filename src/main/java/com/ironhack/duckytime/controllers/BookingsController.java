@@ -36,4 +36,19 @@ public class BookingsController {
         SharedSpace space = sharedSpaceService.getSharedSpace(household.getAdmin().getId(), sharedSpaceId);
         return bookingService.createBooking(space, household, bookingRequest);
     }
+
+    @GetMapping("/api/shared_spaces/{sharedSpaceId}/bookings")
+    public List<Booking> listBookings(Authentication authentication, @PathVariable Long sharedSpaceId) {
+        Household household = getHousehold(authentication);
+        SharedSpace space = sharedSpaceService.getSharedSpace(household.getAdmin().getId(), sharedSpaceId);
+        return bookingService.listBookings(space, household);
+    }
+
+    @DeleteMapping("/api/shared_spaces/{sharedSpaceId}/bookings/{id}")
+    public void cancelBooking(Authentication authentication, @PathVariable Long sharedSpaceId, @PathVariable Long id) {
+        Household household = getHousehold(authentication);
+        SharedSpace space = sharedSpaceService.getSharedSpace(household.getAdmin().getId(), sharedSpaceId);
+        bookingService.cancelBooking(space, id);
+    }
+
 }

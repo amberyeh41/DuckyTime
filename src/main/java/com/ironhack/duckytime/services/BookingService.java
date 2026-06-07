@@ -2,14 +2,18 @@ package com.ironhack.duckytime.services;
 
 import com.ironhack.duckytime.dto.BookingRequest;
 import com.ironhack.duckytime.exceptions.BookingException;
+import com.ironhack.duckytime.exceptions.ResourceNotFoundException;
 import com.ironhack.duckytime.models.Booking;
 import com.ironhack.duckytime.models.Household;
+import com.ironhack.duckytime.models.Booking;
 import com.ironhack.duckytime.models.SharedSpace;
 import com.ironhack.duckytime.repositories.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,5 +58,23 @@ public class BookingService {
       return booking;
     }
 
+    public List<Booking> listBookings(SharedSpace space, Household household) {
+        return bookingRepository.findAllBySharedSpaceAndHousehold(space, household);
+    }
+
+    public void cancelBooking(SharedSpace space, Long id){
+        Booking booking = bookingRepository.findBySharedSpaceIdAndId(space.getId(), id);
+        if (booking == null) {
+            throw new ResourceNotFoundException("Booking not found");
+        }
+        if (booking.getCancelledOn() != null) {
+            throw new BookingException("You can not cancel a booking twice");
+        }
+        if (booking.getStartTime().isBefore(LocalDateTime.now())) {
+            throw new BookingException("You can only cancel future bookings");
+        }
+        booking.setCancelledOn(LocalDateTime.now());
+        bookingRepository.save(booking);
+    }
 
 }
