@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
+                        .requestMatchers("/api/shared_spaces/*/bookings/**").hasAnyAuthority(Role.HOUSEHOLD.getAuthority())
                         .requestMatchers("/api/shared_spaces/**").hasAnyAuthority(Role.ADMIN.getAuthority())
                         .requestMatchers("/api/households/**").hasAnyAuthority(Role.ADMIN.getAuthority())
 

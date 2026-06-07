@@ -41,4 +41,5 @@ public class Household {
         this.padlockPin = padlockPin;
         this.admin = admin;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.ironhack.duckytime.services;
 
+import com.ironhack.duckytime.dto.HouseholdUsername;
 import com.ironhack.duckytime.models.Admin;
 import com.ironhack.duckytime.models.Household;
 import com.ironhack.duckytime.models.Role;
@@ -30,25 +31,19 @@ public class UserService implements UserDetailsService {
         if (admin == null) {
             // If we couldn't find an Admin, let's try to find a Household.
             // The household username is buildingName_floorNumber_doorNumber
-            String[] parts = username.splitWithDelimiters("_", 3);
-            if (parts.length == 5) {
-                try {
-                    String buildingName = parts[0];
-                    Integer floorNumber = Integer.parseInt(parts[2]);
-                    Integer doorNumber = Integer.parseInt(parts[4]);
-                    Household household = householdRepository.findByBuildingNameAndFloorNumberAndDoorNumber(buildingName, floorNumber, doorNumber);
-                    if (household == null) {
-                        throw new UsernameNotFoundException("User not found in the database");
-                    }
-
-                    Collection<GrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(Role.HOUSEHOLD);
-                    return new org.springframework.security.core.userdetails.User(username, household.getPassword(), authorities);
-                } catch (NumberFormatException e) {
-                    throw new UsernameNotFoundException("User not found in the database");
-                }
+            HouseholdUsername householdUsername = new HouseholdUsername(username);
+            Household household = householdRepository.findByBuildingNameAndFloorNumberAndDoorNumber(
+                    householdUsername.getBuildingName(),
+                    householdUsername.getFloorNumber(),
+                    householdUsername.getDoorNumber()
+            );
+            if (household == null) {
+                throw new UsernameNotFoundException("User not found in the database");
             }
-            throw new UsernameNotFoundException("User not found in the database");
+
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(Role.HOUSEHOLD);
+            return new org.springframework.security.core.userdetails.User(username, household.getPassword(), authorities);
         } else {
             log.info("User found in the database: {}", username);
             Collection<GrantedAuthority> authorities = new ArrayList<>();

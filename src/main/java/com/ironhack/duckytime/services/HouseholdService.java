@@ -1,6 +1,7 @@
 package com.ironhack.duckytime.services;
 
 
+import com.ironhack.duckytime.dto.HouseholdUsername;
 import com.ironhack.duckytime.exceptions.ResourceNotFoundException;
 import com.ironhack.duckytime.models.Admin;
 import com.ironhack.duckytime.models.Household;
@@ -30,6 +31,14 @@ public class HouseholdService {
 
     public Household getHousehold(Long adminId, Long id) {
         return householdRepository.findByAdminIdAndId(adminId, id);
+    }
+    public Household getHouseholdByUsername(String username) {
+        HouseholdUsername householdUsername = new HouseholdUsername(username);
+        return householdRepository.findByBuildingNameAndFloorNumberAndDoorNumber(
+                householdUsername.getBuildingName(),
+                householdUsername.getFloorNumber(),
+                householdUsername.getDoorNumber()
+        );
     }
 
     public void deleteHousehold(Long adminId, Long id) {

@@ -36,6 +36,14 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage(), null);
     }
 
+    @ExceptionHandler({BookingException.class})
+    public ResponseEntity<Map<String, Object>> handleBookingError(RuntimeException exception) {
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                null);
+    }
+
     private ResponseEntity<Map<String, Object>> buildErrorResponse(
             HttpStatus status,
             String message,
