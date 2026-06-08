@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +17,8 @@ import java.util.List;
 public class BookingRequest {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Integer adultHeadCount;
-    private Integer kidHeadCount;
+    private Integer adultHeadcount;
+    private Integer kidHeadcount;
 
     public void validateStartAndEndTimes() throws BookingException {
         if (startTime.isAfter(endTime)) {

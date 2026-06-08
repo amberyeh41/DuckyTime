@@ -34,7 +34,7 @@ public class BookingService {
              if (booking.getHousehold().getId().equals(household.getId())) {
                  throw new BookingException("You already have a booking within that time slot");
              }
-             occupancy += booking.getAdultHeadCount() + booking.getKidHeadCount();
+             occupancy += booking.getAdultHeadcount() + booking.getKidHeadcount();
          }
          if(occupancy > maximumOccupancy){
              maximumOccupancy = occupancy;
@@ -42,15 +42,15 @@ public class BookingService {
 
       }
 
-      if (maximumOccupancy + request.getAdultHeadCount() + request.getKidHeadCount() > space.getCapacity()) {
+      if (maximumOccupancy + request.getAdultHeadcount() + request.getKidHeadcount() > space.getCapacity()) {
           throw new BookingException("Over maximum capacity. Try a different time slot");
       }
 
       Booking booking = bookingRepository.save(new Booking(
               request.getStartTime(),
               request.getEndTime(),
-              request.getAdultHeadCount(),
-              request.getKidHeadCount(),
+              request.getAdultHeadcount(),
+              request.getKidHeadcount(),
               household,
               space
       ));

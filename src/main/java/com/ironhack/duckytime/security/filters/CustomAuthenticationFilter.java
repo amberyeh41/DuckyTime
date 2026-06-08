@@ -67,7 +67,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // Adding user details and roles to the token
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 360 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", authorities)
                 .sign(algorithm);

@@ -16,8 +16,8 @@ public class Booking {
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Integer adultHeadCount;
-    private Integer kidHeadCount;
+    private Integer adultHeadcount;
+    private Integer kidHeadcount;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
@@ -37,12 +37,12 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(LocalDateTime startTime, LocalDateTime endTime, Integer adultHeadCount, Integer kidHeadCount, Household household, SharedSpace sharedSpace) {
+    public Booking(LocalDateTime startTime, LocalDateTime endTime, Integer adultHeadcount, Integer kidHeadcount, Household household, SharedSpace sharedSpace) {
 
         this.startTime = startTime;
         this.endTime = endTime;
-        this.adultHeadCount = adultHeadCount;
-        this.kidHeadCount = kidHeadCount;
+        this.adultHeadcount = adultHeadcount;
+        this.kidHeadcount = kidHeadcount;
         this.household = household;
         this.sharedSpace = sharedSpace;
     }
