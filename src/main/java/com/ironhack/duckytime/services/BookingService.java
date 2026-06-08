@@ -59,6 +59,10 @@ public class BookingService {
         return bookingRepository.findAllBySharedSpaceAndHousehold(space, household);
     }
 
+    public Booking findBooking(SharedSpace space, Household household, Long bookingId) {
+        return bookingRepository.findBySharedSpaceAndHouseholdAndAndId(space, household, bookingId);
+    }
+
     public void cancelBooking(SharedSpace space, Long id){
         Booking booking = bookingRepository.findBySharedSpaceIdAndId(space.getId(), id);
         if (booking == null) {

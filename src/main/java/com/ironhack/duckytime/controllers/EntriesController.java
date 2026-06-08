@@ -1,15 +1,12 @@
 package com.ironhack.duckytime.controllers;
 
 import com.ironhack.duckytime.dto.AttemptEntryRequest;
-import com.ironhack.duckytime.dto.SharedSpaceRequest;
 import com.ironhack.duckytime.exceptions.EntryException;
 import com.ironhack.duckytime.models.Admin;
-import com.ironhack.duckytime.models.Household;
 import com.ironhack.duckytime.models.SharedSpace;
 import com.ironhack.duckytime.models.entries.EntryResult;
 import com.ironhack.duckytime.services.AdminService;
 import com.ironhack.duckytime.services.EntryService;
-import com.ironhack.duckytime.services.HouseholdService;
 import com.ironhack.duckytime.services.SharedSpaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
