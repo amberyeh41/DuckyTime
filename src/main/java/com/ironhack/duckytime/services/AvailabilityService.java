@@ -55,7 +55,7 @@ public class AvailabilityService {
 """, "AvailableSlotMapping");
 
         query.setParameter("fromDate", fromDate.toString());
-        query.setParameter("toDate", toDate.toString());
+        query.setParameter("toDate", toDate.plusDays(1).atStartOfDay().toString());
         query.setParameter("adultHeadcount", adultHeadcount);
         query.setParameter("kidHeadcount", kidHeadcount);
         query.setParameter("capacity", space.getCapacity());

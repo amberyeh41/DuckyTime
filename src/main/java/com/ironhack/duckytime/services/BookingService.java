@@ -3,50 +3,49 @@ package com.ironhack.duckytime.services;
 import com.ironhack.duckytime.dto.BookingRequest;
 import com.ironhack.duckytime.exceptions.BookingException;
 import com.ironhack.duckytime.exceptions.ResourceNotFoundException;
+import com.ironhack.duckytime.models.*;
 import com.ironhack.duckytime.models.Booking;
-import com.ironhack.duckytime.models.Household;
-import com.ironhack.duckytime.models.Booking;
-import com.ironhack.duckytime.models.SharedSpace;
 import com.ironhack.duckytime.repositories.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BookingService {
     private final BookingRepository bookingRepository;
+    private final AvailabilityService availabilityService;
 
     public Booking createBooking (SharedSpace space, Household household, BookingRequest request){
       request.validateStartAndEndTimes();
 
-      int maximumOccupancy = 0;
-      for(LocalDateTime hourStart : request.allHourStarts()) {
-         List<Booking> bookings = bookingRepository.findByOverlap(space.getId(), hourStart, hourStart.plusHours(1));
-         int occupancy = 0;
-         for(Booking booking : bookings){
-             if (booking.getHousehold().getId().equals(household.getId())) {
-                 throw new BookingException("You already have a booking within that time slot");
-             }
-             occupancy += booking.getAdultHeadcount() + booking.getKidHeadcount();
-         }
-         if(occupancy > maximumOccupancy){
-             maximumOccupancy = occupancy;
-         }
+      LocalDate fromDate = request.getStartTime().toLocalDate();
+      LocalDate toDate = request.getEndTime().toLocalDate();
+      List<AvailableSlot> slots = availabilityService.listAvailableSlots(space, fromDate, toDate, request.getAdultHeadcount(), request.getKidHeadcount());
 
+      log.info("Hello {}", slots);
+      Set<LocalDateTime> requiredSlotStarts = new HashSet<>(request.allHourStarts());
+      log.info("Required Slot Starts {}", requiredSlotStarts);
+      for(AvailableSlot slot : slots) {
+          requiredSlotStarts.remove(slot.getStartTime());
       }
 
-      if (maximumOccupancy + request.getAdultHeadcount() + request.getKidHeadcount() > space.getCapacity()) {
-          throw new BookingException("Over maximum capacity. Try a different time slot");
+      if (!requiredSlotStarts.isEmpty()) {
+          StringBuilder joined = new StringBuilder("Unavailable times: ");
+          for (LocalDateTime unavailable : requiredSlotStarts) {
+              joined.append(unavailable.toLocalTime().toString()).append(",");
+          }
+          throw new BookingException("Over maximum capacity. Try a different time slot or booking length. " + joined);
       }
 
-      Booking booking = bookingRepository.save(new Booking(
+      return bookingRepository.save(new Booking(
               request.getStartTime(),
               request.getEndTime(),
               request.getAdultHeadcount(),
@@ -54,8 +53,6 @@ public class BookingService {
               household,
               space
       ));
-
-      return booking;
     }
 
     public List<Booking> listBookings(SharedSpace space, Household household) {

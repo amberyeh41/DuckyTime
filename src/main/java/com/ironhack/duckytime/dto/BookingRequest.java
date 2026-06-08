@@ -33,6 +33,9 @@ public class BookingRequest {
         if (endTime.getMinute() != 0){
             throw new BookingException("End time should be on the hour");
         }
+        if (endTime.getHour() - startTime.getHour() > 3) {
+            throw new BookingException("You can only book max 3 hours");
+        }
     }
     
     public List<LocalDateTime> allHourStarts() {
