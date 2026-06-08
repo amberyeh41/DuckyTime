@@ -1,6 +1,7 @@
 package com.ironhack.duckytime.services;
 
 import com.ironhack.duckytime.models.AvailableSlot;
+import com.ironhack.duckytime.models.Booking;
 import com.ironhack.duckytime.models.SharedSpace;
 import jakarta.persistence.*;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +60,8 @@ public class AvailabilityService {
         query.setParameter("adultHeadcount", adultHeadcount);
         query.setParameter("kidHeadcount", kidHeadcount);
         query.setParameter("capacity", space.getCapacity());
-        query.setParameter("morningStart", 6);
-        query.setParameter("eveningEnd", 21);
+        query.setParameter("morningStart", Booking.EARLIEST_HOUR);
+        query.setParameter("eveningEnd", Booking.LATEST_HOUR);
 
         return (List<AvailableSlot>) query.getResultList();
     }

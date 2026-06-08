@@ -33,7 +33,11 @@ public class SharedSpaceService {
     }
 
     public SharedSpace getSharedSpace(Long adminId, Long id) {
-        return sharedSpaceRepository.findByAdminIdAndId(adminId, id);
+        SharedSpace space = sharedSpaceRepository.findByAdminIdAndId(adminId, id);
+        if (space == null) {
+            throw new ResourceNotFoundException("Shared space not found");
+        }
+        return space;
     }
 
     public void deleteSharedSpace(Long adminId, Long id) {

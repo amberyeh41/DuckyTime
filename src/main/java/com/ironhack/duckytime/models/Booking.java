@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table( name= "bookings")
 public class Booking {
+    public static int EARLIEST_HOUR = 6;
+    public static int LATEST_HOUR = 21;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

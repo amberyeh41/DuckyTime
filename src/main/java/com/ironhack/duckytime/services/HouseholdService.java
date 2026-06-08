@@ -41,6 +41,10 @@ public class HouseholdService {
         );
     }
 
+    public Household getHousehold(Long adminId, String padlockPin) {
+        return householdRepository.findByAdminIdAndPadlockPin(adminId, padlockPin);
+    }
+
     public void deleteHousehold(Long adminId, Long id) {
         Household space = householdRepository.findByAdminIdAndId(adminId, id);
         if (space == null) {

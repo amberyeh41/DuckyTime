@@ -8,5 +8,6 @@ import java.util.List;
 public interface HouseholdRepository extends JpaRepository<Household, Integer> {
     List<Household> findAllByAdminId(Long adminId);
     Household findByAdminIdAndId(Long adminId, Long id);
+    Household findByAdminIdAndPadlockPin(Long adminId, String padlockPin);
     Household findByBuildingNameAndFloorNumberAndDoorNumber(String buildingName, Integer floorNumber, Integer doorNumber);
 }
