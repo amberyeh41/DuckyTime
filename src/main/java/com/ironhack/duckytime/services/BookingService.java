@@ -78,4 +78,8 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
+    public List<Booking> allBookingsForAdmin(Admin admin) {
+        return bookingRepository.findAllByHouseholdAdmin(admin);
+    }
+
 }

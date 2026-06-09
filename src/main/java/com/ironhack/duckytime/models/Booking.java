@@ -26,14 +26,12 @@ public class Booking {
     private LocalDateTime createdOn;
     private LocalDateTime cancelledOn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "household_id")
-    @JsonIgnore
     private Household household;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shared_space_id")
-    @JsonIgnore
     private SharedSpace sharedSpace;
 
 

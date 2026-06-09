@@ -1,5 +1,6 @@
 package com.ironhack.duckytime.repositories;
 
+import com.ironhack.duckytime.models.Admin;
 import com.ironhack.duckytime.models.Booking;
 import com.ironhack.duckytime.models.Household;
 import com.ironhack.duckytime.models.SharedSpace;
@@ -17,6 +18,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b FROM Booking b WHERE b.cancelledOn IS NULL AND b.household = :household AND b.sharedSpace = :sharedSpace AND b.startTime <= :now AND b.endTime > :now")
     Booking findActiveBySharedSpaceAndHouseHold(@Param("sharedSpace") SharedSpace space, @Param("household") Household household, @Param("now") LocalDateTime now);
+
+    List<Booking> findAllByHouseholdAdmin(Admin admin);
 }
 
 

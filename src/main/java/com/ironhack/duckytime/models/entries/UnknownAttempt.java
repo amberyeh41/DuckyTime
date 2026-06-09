@@ -14,6 +14,6 @@ public class UnknownAttempt extends EntryAttempt {
     }
 
     public UnknownAttempt() {
-        
+
     }
 }
