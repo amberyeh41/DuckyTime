@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class DeniedAttempt extends EntryAttempt {
     @ManyToOne
     @JoinColumn(name = "household_id")
-    @JsonIgnore
     private Household household;
 
     public DeniedAttempt(LocalDateTime attemptTime, String padlockPin, SharedSpace sharedSpace, Household household) {

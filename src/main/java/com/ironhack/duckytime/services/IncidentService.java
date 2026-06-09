@@ -25,6 +25,6 @@ public class IncidentService {
     }
 
     public List<Incident> allIncidentsForAdmin(Admin admin) {
-        return incidentRepository.findAllForAdmin(admin);
+        return incidentRepository.findAllByHouseholdAdmin(admin);
     }
 }

@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class FreeEntry extends EntryAttempt {
     @ManyToOne
     @JoinColumn(name = "household_id")
-    @JsonIgnore
     private Household household;
 
     public FreeEntry(LocalDateTime attemptTime, String padlockPin, SharedSpace sharedSpace, Household household) {

@@ -12,4 +12,8 @@ public class UnknownAttempt extends EntryAttempt {
     public UnknownAttempt(LocalDateTime attemptTime, String padlockPin, SharedSpace sharedSpace) {
         super(attemptTime, padlockPin, sharedSpace);
     }
+
+    public UnknownAttempt() {
+        
+    }
 }

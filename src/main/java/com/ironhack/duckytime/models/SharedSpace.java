@@ -23,7 +23,7 @@ public class SharedSpace {
     @NotNull
     private Integer capacity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
     @JsonIgnore
     private Admin admin;

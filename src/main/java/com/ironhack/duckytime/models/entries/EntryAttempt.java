@@ -1,6 +1,7 @@
 package com.ironhack.duckytime.models.entries;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ironhack.duckytime.models.SharedSpace;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
@@ -15,6 +16,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table( name= "entry_attempts")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
 public class EntryAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +32,8 @@ public class EntryAttempt {
     @Digits(integer = 4, fraction = 0)
     private String padlockPin;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shared_space_id")
-    @JsonIgnore
     private SharedSpace sharedSpace;
 
     public EntryAttempt(LocalDateTime attemptTime, String padlockPin, SharedSpace sharedSpace) {

@@ -18,12 +18,10 @@ import java.time.LocalDateTime;
 public class BookedEntry extends EntryAttempt {
     @ManyToOne
     @JoinColumn(name = "household_id")
-    @JsonIgnore
     private Household household;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
-    @JsonIgnore
     private Booking booking;
 
     public BookedEntry(LocalDateTime attemptTime, String padlockPin, SharedSpace sharedSpace, Household household, Booking booking) {
