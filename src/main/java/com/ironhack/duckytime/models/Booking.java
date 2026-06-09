@@ -9,7 +9,10 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@Table( name= "bookings")
+@Table( name= "bookings", indexes = {
+        @Index(name = "availabilityIndex", columnList = "startTime, endTime, sharedSpaceId"),
+        @Index(name = "activeIndex", columnList = "sharedSpaceId, householdId, startTime, endTime, cancelledOn")
+})
 public class Booking {
     public static int EARLIEST_HOUR = 6;
     public static int LATEST_HOUR = 21;
