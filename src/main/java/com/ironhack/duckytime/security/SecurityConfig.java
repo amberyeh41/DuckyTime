@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -49,6 +50,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
+                        // Routes to audit bookings, entries and incidents for admins, across all their shared spaces
+                        .requestMatchers(GET, "/api/bookings").hasAnyAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers(GET, "/api/entries").hasAnyAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers(GET, "/api/incidents").hasAnyAuthority(Role.ADMIN.getAuthority())
+                        // Regular routes after that
                         .requestMatchers("/api/shared_spaces/*/bookings/**").hasAnyAuthority(Role.HOUSEHOLD.getAuthority())
                         .requestMatchers("/api/shared_spaces/*/available_slots/**").hasAnyAuthority(Role.HOUSEHOLD.getAuthority())
                         .requestMatchers("/api/shared_spaces/**").hasAnyAuthority(Role.ADMIN.getAuthority())

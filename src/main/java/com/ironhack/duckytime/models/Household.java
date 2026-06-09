@@ -20,8 +20,11 @@ public class Household {
     private String buildingName;
     private int floorNumber;
     private int doorNumber;
+    
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @Digits(integer = 4, fraction = 0)
     private String padlockPin;
 

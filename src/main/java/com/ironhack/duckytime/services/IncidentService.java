@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,5 +22,9 @@ public class IncidentService {
                         notes
                 )
         );
+    }
+
+    public List<Incident> allIncidentsForAdmin(Admin admin) {
+        return incidentRepository.findAllForAdmin(admin);
     }
 }

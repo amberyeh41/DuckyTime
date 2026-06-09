@@ -1,4 +1,4 @@
-package com.ironhack.duckytime.controllers;
+package com.ironhack.duckytime.controllers.admin;
 
 import com.ironhack.duckytime.dto.SharedSpaceRequest;
 import com.ironhack.duckytime.models.Admin;
@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class SharedSpacesController {
+public class AdminSharedSpacesController {
     private final SharedSpaceService sharedSpaceService;
     private final AdminService adminService;
 

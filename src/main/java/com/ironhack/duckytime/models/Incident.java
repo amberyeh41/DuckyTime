@@ -22,12 +22,10 @@ public class Incident {
 
     @ManyToOne
     @JoinColumn(name = "household_id")
-    @JsonIgnore
     private Household household;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
-    @JsonIgnore
     private Booking booking;
 
     @CreationTimestamp
