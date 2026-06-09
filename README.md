@@ -216,8 +216,8 @@ A note on the entry endpoint: it lives under `/api/shared_spaces/**` and is auth
 
 ## Extra Links
 
-- **Presentation Slides:** _add link here_
-- **Project Management Board:** _add link here_
+- **Presentation Slides:** https://pitch.com/v/duckytime-ironhack-amber-yeh-rpq6fi
+- **Project Management Board:** Handwritten notebook -- old-school lady
 
 ## Future Work
 
