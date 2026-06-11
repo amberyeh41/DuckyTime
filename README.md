@@ -132,10 +132,13 @@ You need Docker (for the database), Java 25, and the Maven wrapper that ships wi
 
 3. Run the app:
    ```bash
+   # if you want to seed data, run this: 
+   ./mvnw clean spring-boot:run -D spring-boot.run.arguments=--seed=true
+   # if you want no data at all:
    ./mvnw spring-boot:run
    ```
 
-On the first start a seed admin is created so you have something to log in with:
+If you created seed data, an admin is created so you have something to log in with:
 
 | Username | Password  |
 | -------- | --------- |

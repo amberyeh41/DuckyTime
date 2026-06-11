@@ -26,6 +26,7 @@ public class SharedSpace {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
     @JsonIgnore
+    @NotNull
     private Admin admin;
 
     protected SharedSpace() {

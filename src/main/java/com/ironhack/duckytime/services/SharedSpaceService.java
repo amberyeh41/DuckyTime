@@ -18,8 +18,8 @@ public class SharedSpaceService {
         this.sharedSpaceRepository = sharedSpaceRepository;
     }
 
-    public void saveSharedSpace(SharedSpace sharedSpace) {
-        sharedSpaceRepository.save(sharedSpace);
+    public SharedSpace saveSharedSpace(SharedSpace sharedSpace) {
+        return sharedSpaceRepository.save(sharedSpace);
     }
 
     public SharedSpace renameSharedSpace(SharedSpace sharedSpace, String newName) {
